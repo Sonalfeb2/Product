@@ -8,7 +8,7 @@ let groceryList = document.getElementById("groceryItems");
 let allItems = document.getElementById("allItems");
 form.addEventListener("submit", OrderFun);
 axios
-  .get("https://crudcrud.com/api/dad252ecf21d4f4d851917fe0a499a60/Products")
+  .get("https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products")
   .then(res => {
     var data = res.data;
     data.forEach(item => {
@@ -34,39 +34,45 @@ axios
     });
   })
   .catch(err => console.log(err));
-function OrderFun(e) {
+async function OrderFun(e) {
   e.preventDefault();
   var obj = {
     amount: amount.value,
     description: des.value,
     category: cat.value
   };
-  axios
+  var response = await axios
     .post(
-      "https://crudcrud.com/api/dad252ecf21d4f4d851917fe0a499a60/Products",
+      "https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products",
       obj
     )
-    .then(res => {
-      alert("Added to Cart");
-      window.location.reload();
-    })
+    .then(res => res)
     .catch(err => console.log(err));
+  if (response) {
+    alert("data Added SuccessFully");
+    window.location.reload();
+  } else {
+    alert("Data not added");
+  }
 }
 allItems.addEventListener("click", RemoveItem);
-function RemoveItem(e) {
+async function RemoveItem(e) {
   if (e.target.classList.contains("delete")) {
     if (confirm("Are you Sure")) {
       let li = e.target.parentElement;
       let key = li.getAttribute("id");
-      axios
+      let response = await axios
         .delete(
-          `https://crudcrud.com/api/dad252ecf21d4f4d851917fe0a499a60/Products/${key}`
+          `https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products/${key}`
         )
-        .then(res => {
-          alert("SuccessFully Deleted");
-          window.location.reload();
-        })
+        .then(res => res)
         .catch(err => console.log("Not Deleted"));
+      if (response) {
+        alert("Deleted SuccessFully");
+        window.location.reload();
+      } else {
+        alert("Not Deleted");
+      }
     }
   }
 }
