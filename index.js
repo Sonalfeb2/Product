@@ -41,14 +41,11 @@ async function OrderFun(e) {
     description: des.value,
     category: cat.value
   };
-  var response = await axios
-    .post(
-      "https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products",
-      obj
-    )
-    .then(res => res)
-    .catch(err => console.log(err));
-  if (response) {
+  var response = await axios.post(
+    "https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products",
+    obj
+  );
+  if (response.status == "201") {
     alert("data Added SuccessFully");
     window.location.reload();
   } else {
@@ -61,13 +58,10 @@ async function RemoveItem(e) {
     if (confirm("Are you Sure")) {
       let li = e.target.parentElement;
       let key = li.getAttribute("id");
-      let response = await axios
-        .delete(
-          `https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products/${key}`
-        )
-        .then(res => res)
-        .catch(err => console.log("Not Deleted"));
-      if (response) {
+      let response = await axios.delete(
+        `https://crudcrud.com/api/c09d19ce8cf54334810ca27033a7ce09/Products/${key}`
+      );
+      if (response.statusText === "OK") {
         alert("Deleted SuccessFully");
         window.location.reload();
       } else {
